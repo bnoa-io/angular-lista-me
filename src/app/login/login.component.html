@@ -1,0 +1,37 @@
+<main class="tw-bg-gray-50 tw-h-full tw-w-full">
+  <section class="tw-flex tw-flex-col tw-gap-2 tw-h-full tw-justify-center tw-mx-auto tw-w-96">
+    <h4 class="tw-font-medium tw-text-xl tw-text-gray-700">
+      Bem vindo ao <span class="tw-text-blue-500">Lista-me</span>
+    </h4>
+    <h1 class="tw-font-semibold tw-text-3xl tw-text-gray-700 tw-mb-4">Faça login na sua conta</h1>
+    <div [formGroup]="form">
+      <mat-form-field class="tw-w-full">
+        <mat-label>Digite seu usuário</mat-label>
+        <mat-icon class="tw-text-gray-700" matPrefix>perm_identity</mat-icon>
+        <input formControlName="user" matInput type="text">
+        <mat-error class="tw-flex tw-gap-2">
+          Este campo é obrigatório
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="tw-w-full">
+        <mat-label>Digite seu senha</mat-label>
+        <mat-icon class="tw-text-gray-700" matPrefix>lock</mat-icon>
+        <input formControlName="password" matInput placeholder="Digite seu usuário" [type]="visibility ?  'text' : 'password'">
+        <button class="tw-text-blue-500" matSuffix mat-icon-button (click)="visibility = !visibility">
+          <mat-icon>{{ visibility ?  'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error class="tw-flex tw-gap-2">
+          Este campo é obrigatório
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <button
+      class="tw-font-medium tw-h-12 tw-text-gray-50 tw-text-lg"
+      mat-flat-button
+      [class.tw-bg-blue-500]="form.valid"
+      [disabled]="form.invalid"
+      (click)="login()">
+      Entrar
+    </button>
+  </section>
+</main>
