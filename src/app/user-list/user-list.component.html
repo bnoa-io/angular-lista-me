@@ -1,1 +1,76 @@
-<p>user-list works!</p>
+<main class="tw-bg-gray-50 tw-flex tw-h-full tw-overflow-auto tw-px-60 tw-w-full">
+  <div class="tw-bg-white tw-flex tw-flex-col tw-gap-4 tw-h-fit tw-my-20 tw-p-8 tw-rounded-lg tw-shadow-xl tw-w-full">
+    <mat-table class="tw-border tw-border-solid tw-border-gray-300" matSort [dataSource]="dataSource">
+      <ng-container matColumnDef="select">
+        <mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            [checked]="selection.hasValue() && isAllSelected()"
+            [indeterminate]="selection.hasValue() && !isAllSelected()"
+            matTooltip="Selecionar todos"
+            matTooltipPosition="above"
+            (change)="$event ? toggleAllRows() : null">
+          </mat-checkbox>
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">
+          <mat-checkbox
+            [checked]="selection.isSelected(row)"
+            matTooltip="Selecionar usuário"
+            matTooltipPosition="above"
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selection.toggle(row) : null">
+          </mat-checkbox>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{user.name}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="position">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Cargo</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{user.position}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="hiringDate">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Contratação</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{ user.hiringDate | date: 'dd/MM/yyyy'}}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="salary">
+        <mat-header-cell mat-sort-header *matHeaderCellDef>Salário</mat-header-cell>
+        <mat-cell *matCellDef="let user">{{user.salary | currency: 'BRL' }}</mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="action" stickyEnd>
+        <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+        <mat-cell *matCellDef="let user">
+          <div class="tw-flex tw-gap-2 tw-py-2">
+            <button
+              class="tw-bg-gray-600 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
+              matTooltip="Visualizar"
+              matTooltipPosition="above">
+              <mat-icon>person_search</mat-icon>
+            </button>
+            <button
+              class="tw-bg-blue-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
+              matTooltip="Editar"
+              matTooltipPosition="above">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              class="tw-bg-red-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
+              matTooltip="Deletar"
+              matTooltipPosition="above">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row class="tw-font-medium tw-bg-gray-300 tw-text-gray-700" *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row class="odd:tw-bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator
+      class="tw-text-xs"
+      showFirstLastButtons
+      [pageSize]="10"
+      [pageSizeOptions]="[5, 10, 20]">
+    </mat-paginator>
+  </div>
+</main>
