@@ -1,10 +1,14 @@
-<main class="tw-bg-gray-50 tw-h-full tw-w-full">
+<main class="tw-bg-gray-50 tw-flex tw-h-full tw-w-full">
+  <figure class="tw-bg-blue-200 tw-flex tw-flex-col tw-gap-2 tw-items-center tw-justify-center tw-w-1/2 max-md:tw-hidden">
+    <img class="tw-w-1/2" src="assets/undraw_learning-sketchingsh.svg" alt="Login image"/>
+    <p class="tw-font-light tw-text-3xl tw-text-gray-700">Gerencie suas contratações</p>
+  </figure>
   <section class="tw-flex tw-flex-col tw-gap-2 tw-h-full tw-justify-center tw-mx-auto tw-w-96">
     <h4 class="tw-font-medium tw-text-xl tw-text-gray-700">
       Bem vindo ao <span class="tw-text-blue-500">Lista-me</span>
     </h4>
     <h1 class="tw-font-semibold tw-text-3xl tw-text-gray-700 tw-mb-4">Faça login na sua conta</h1>
-    <div [formGroup]="form">
+    <div class="tw-flex tw-flex-col tw-gap-4 tw-mb-2" [formGroup]="form">
       <mat-form-field class="tw-w-full">
         <mat-label>Digite seu usuário</mat-label>
         <mat-icon class="tw-text-gray-700" matPrefix>perm_identity</mat-icon>
