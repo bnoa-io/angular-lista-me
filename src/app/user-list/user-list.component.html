@@ -1,6 +1,6 @@
 <mat-sidenav-container class="tw-absolute tw-bg-gray-50 tw-bottom-0 tw-left-0 tw-right-0 tw-top-0">
-  <mat-sidenav class="tw-w-[600px]" mode="over" [opened]="isOpen" position="end" (closedStart)="isOpen = false">
-    <user-form></user-form>
+  <mat-sidenav class="tw-w-[600px]" mode="over" [opened]="isOpen" position="end" (closedStart)="onClose(false)">
+    <user-form [user]="currentUser" (close)="onClose($event)"></user-form>
   </mat-sidenav>
   <mat-sidenav-content>
     <header class="tw-bg-blue-500 tw-px-60 tw-py-8">
@@ -29,16 +29,16 @@
       </div>
       <section class="tw-bg-white tw-flex tw-flex-col tw-gap-4 tw-h-fit tw-mb-20 tw-p-8 tw-rounded-lg tw-shadow-xl tw-w-full">
         <mat-table class="tw-border tw-border-solid tw-border-gray-300" matSort [dataSource]="dataSource">
-          <ng-container matColumnDef="name">
+          <ng-container matColumnDef="nome">
             <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
             <mat-cell *matCellDef="let user">
-              <span matTooltipPosition="above" [matTooltip]="user.name">{{user.name}}</span>
+              <span matTooltipPosition="above" [matTooltip]="user.nome">{{ user.nome }}</span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="position">
+          <ng-container matColumnDef="cargo">
             <mat-header-cell mat-sort-header *matHeaderCellDef>Cargo</mat-header-cell>
             <mat-cell *matCellDef="let user">
-              <span matTooltipPosition="above" [matTooltip]="user.position">{{user.position}}</span>
+              <span matTooltipPosition="above" [matTooltip]="user.cargo">{{ user.cargo }}</span>
             </mat-cell>
           </ng-container>
           <ng-container matColumnDef="status">
@@ -49,13 +49,13 @@
               </span>
             </mat-cell>
           </ng-container>
-          <ng-container matColumnDef="hiringDate">
+          <ng-container matColumnDef="contratacao">
             <mat-header-cell mat-sort-header *matHeaderCellDef>Contratação</mat-header-cell>
-            <mat-cell *matCellDef="let user">{{ user.hiringDate | date: 'dd/MM/yyyy'}}</mat-cell>
+            <mat-cell *matCellDef="let user">{{ user.contratacao | date: 'dd/MM/yyyy'}}</mat-cell>
           </ng-container>
-          <ng-container matColumnDef="salary">
+          <ng-container matColumnDef="salario">
             <mat-header-cell mat-sort-header *matHeaderCellDef>Salário</mat-header-cell>
-            <mat-cell *matCellDef="let user">{{user.salary | currency: 'BRL' }}</mat-cell>
+            <mat-cell *matCellDef="let user">{{user.salario | currency: 'BRL' }}</mat-cell>
           </ng-container>
           <ng-container matColumnDef="action" stickyEnd>
             <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
@@ -70,13 +70,15 @@
                 <button
                   class="tw-bg-gray-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
                   matTooltip="Editar"
-                  matTooltipPosition="above">
+                  matTooltipPosition="above"
+                  (click)="onEdit(user.id)">
                   <mat-icon>edit</mat-icon>
                 </button>
                 <button
                   class="tw-bg-red-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
                   matTooltip="Deletar"
-                  matTooltipPosition="above">
+                  matTooltipPosition="above"
+                  (click)="onDelete(user.id)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -85,6 +87,9 @@
 
           <mat-header-row class="tw-font-medium tw-bg-gray-300 tw-text-gray-700" *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row class="odd:tw-bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          <div class="tw-p-3" *matNoDataRow>
+            <p class="tw-text-center tw-text-sm tw-text-gray-500">Sem registros...</p>
+          </div>
         </mat-table>
         <mat-paginator
           class="tw-text-xs"

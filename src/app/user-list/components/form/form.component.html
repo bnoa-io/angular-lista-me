@@ -1,25 +1,25 @@
 <header class="tw-bg-gray-300 tw-flex tw-gap-2 tw-items-center tw-p-6 tw-text-gray-600">
   <mat-icon class="">app_registration</mat-icon>
   <span class="tw-font-medium tw-text-lg">Cadastro de usuário</span>
-  <mat-icon class="tw-cursor-pointer tw-ml-auto">close</mat-icon>
+  <mat-icon class="tw-cursor-pointer tw-ml-auto" (click)="onClose()">close</mat-icon>
 </header>
 <aside class="tw-flex tw-flex-col tw-gap-4 tw-p-4">
   <form class="tw-flex tw-flex-col tw-gap-4 tw-mb-2" [formGroup]="form">
     <mat-form-field>
       <mat-label>Nome completo</mat-label>
-      <input formControlName="name" matInput placeholder="Digite o nome do usuário">
+      <input formControlName="nome" matInput placeholder="Digite o nome do usuário">
       <mat-error>
         Este campo é obrigatório
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Cargo</mat-label>
-      <input formControlName="position" matInput placeholder="Digite o cargo do usuário">
+      <input formControlName="cargo" matInput placeholder="Digite o cargo do usuário">
       <mat-error>Este campo é obrigatório</mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Data de contratação</mat-label>
-      <input formControlName="hiringDate" matInput [matDatepicker]="picker">
+      <input formControlName="contratacao" matInput [matDatepicker]="picker" [max]="today">
       <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
       <mat-error>Este campo é obrigatório</mat-error>
@@ -38,7 +38,7 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Salário</mat-label>
-      <input formControlName="salary" matInput placeholder="Digite o salário do usuário" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$ ">
+      <input formControlName="salario" matInput placeholder="Digite o salário do usuário" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$ ">
       <mat-error>Este campo é obrigatório</mat-error>
     </mat-form-field>
   </form>

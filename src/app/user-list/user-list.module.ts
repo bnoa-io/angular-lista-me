@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { UserListComponent } from './user-list.component';
 import { FormModule } from './components/form/form.module';
 import { FilterModule } from './components/filter/filter.module';
+import { UserListService } from './services/user-list.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,9 @@ import { FilterModule } from './components/filter/filter.module';
   ],
   exports: [
     UserListComponent
+  ],
+  providers: [
+    UserListService
   ]
 })
 export class UserListModule { }

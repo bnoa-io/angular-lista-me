@@ -11,6 +11,7 @@ import { LoginModule } from './login/login.module';
 import { LoginComponent } from './login/login.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -29,7 +30,8 @@ const routes: Routes = [
     BrowserAnimationsModule,
     LoginModule,
     UserListModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    HttpClientModule
   ],
   providers: [
     {
@@ -54,7 +56,7 @@ const routes: Routes = [
       provide: MAT_DATE_LOCALE,
       useValue: 'pt-BR'
     },
-    provideNgxMask()
+    provideNgxMask(),
   ],
   bootstrap: [AppComponent]
 })

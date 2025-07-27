@@ -1,38 +1,11 @@
-import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { FilterComponent } from './components/filter/filter.component';
-
-interface User {
-  name: string;
-  position: string;
-  hiringDate: string;
-  status: boolean;
-  salary: number;
-}
-
-const ELEMENT_DATA: User[] = [
-  { name: 'Brayan Apeles', position: 'Administrador', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'João da Silva', position: 'Front-end Developer', status: false, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Simão Nunes', position: 'Back-end Developer', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Pedro Oliveira', position: 'Product Owner', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'André Silva', position: 'Quality Assurance', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Tiago Costa', position: 'Quality Assurance', status: false, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Felipe Ferreira', position: 'Quality Assurance', status: false, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Bartolomeu Dias', position: 'Tech lead', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Tomé Duarte', position: 'Marketing', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Mateus Souza', position: 'Marketing', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Tiago Esperança', position: 'Marketing', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Tadeu Messias', position: 'Financial', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Judas Priest', position: 'Financial', status: false, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Ozzy Osborn', position: 'Designer', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Corey Taylor', position: 'Front-end Developer', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Patrícia Carla', position: 'Back-end Developer', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-  { name: 'Ana Nunes', position: 'Back-end Developer', status: true, hiringDate: '2025-07-16T15:30:00', salary: 5500 },
-];
+import { UserListService } from './services/user-list.service';
+import { User } from './models/user.model';
 
 @Component({
   selector: 'user-list',
@@ -40,22 +13,24 @@ const ELEMENT_DATA: User[] = [
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit, AfterViewInit {
-  dataSource = new MatTableDataSource(ELEMENT_DATA);
-  displayedColumns: string[] = ['name', 'position', 'hiringDate', 'status', 'salary', 'action'];
+  currentUser?: User;
+  dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
+  displayedColumns: string[] = ['nome', 'cargo', 'contratacao', 'status', 'salario', 'action'];
   isOpen: boolean = false;
-  selection = new SelectionModel<User>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
     private _dialog: MatDialog,
-    private _paginatorService: MatPaginatorIntl
+    private _paginatorService: MatPaginatorIntl,
+    private _userService: UserListService
   ){}
 
   ngOnInit(): void {
+    this._refreshTable();
     this.dataSource.filterPredicate = function(data: User, filter: string): boolean {
-      return data.name.trim().toLowerCase().includes(filter);
+      return data.nome.trim().toLowerCase().includes(filter);
     };
     this._initPaginator();
   }
@@ -74,16 +49,21 @@ export class UserListComponent implements OnInit, AfterViewInit {
     this._dialog.open(FilterComponent, { width: '600px' });
   }
 
-  isAllSelected(): boolean {
-    return this.selection.selected.length === this.dataSource.data.length;
+  onClose(refresh: boolean): void {
+    if (refresh) this._refreshTable();
+    this.isOpen = false;
+    this.currentUser = undefined;
   }
 
-  toggleAllRows(): void {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
-    }
-    this.selection.select(...this.dataSource.data);
+  onDelete(id: number): void {
+    this._userService.deleteUser(id).subscribe(() => this._refreshTable());
+  }
+
+  onEdit(id: number): void {
+    this._userService.getUser(id).subscribe((user: User) => {
+      this.currentUser = user;
+      this.isOpen = true;
+    })
   }
 
   private _initPaginator(): void {
@@ -92,5 +72,11 @@ export class UserListComponent implements OnInit, AfterViewInit {
     this._paginatorService.lastPageLabel = "Ultima página"
     this._paginatorService.nextPageLabel = "Próxima página"
     this._paginatorService.previousPageLabel = "Página anterior";
+  }
+
+  private _refreshTable(): void {
+    this._userService.getUsers().subscribe((users: User[]) => {
+      this.dataSource.data = users;
+    });
   }
 }
