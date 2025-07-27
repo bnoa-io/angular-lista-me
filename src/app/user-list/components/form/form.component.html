@@ -1,0 +1,58 @@
+<header class="tw-bg-gray-300 tw-flex tw-gap-2 tw-items-center tw-p-6 tw-text-gray-600">
+  <mat-icon class="">app_registration</mat-icon>
+  <span class="tw-font-medium tw-text-lg">Cadastro de usuário</span>
+  <mat-icon class="tw-cursor-pointer tw-ml-auto">close</mat-icon>
+</header>
+<aside class="tw-flex tw-flex-col tw-gap-4 tw-p-4">
+  <form class="tw-flex tw-flex-col tw-gap-4 tw-mb-2" [formGroup]="form">
+    <mat-form-field>
+      <mat-label>Nome completo</mat-label>
+      <input formControlName="name" matInput placeholder="Digite o nome do usuário">
+      <mat-error>
+        Este campo é obrigatório
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Cargo</mat-label>
+      <input formControlName="position" matInput placeholder="Digite o cargo do usuário">
+      <mat-error>Este campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Data de contratação</mat-label>
+      <input formControlName="hiringDate" matInput [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error>Este campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Status</mat-label>
+      <mat-select formControlName="status" placeholder="Digite o salário do usuário">
+        <mat-option value="true">
+          Ativo
+        </mat-option>
+        <mat-option value="false">
+          Desativado
+        </mat-option>
+      </mat-select>
+      <mat-error>Este campo é obrigatório</mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Salário</mat-label>
+      <input formControlName="salary" matInput placeholder="Digite o salário do usuário" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$ ">
+      <mat-error>Este campo é obrigatório</mat-error>
+    </mat-form-field>
+  </form>
+  <button
+    class="tw-h-14 tw-bg-blue-500 tw-text-white"
+    [disabled]="form.invalid"
+    mat-flat-button
+    [ngClass]="{'tw-bg-gray-300 tw-text-gray-400' : form.invalid}"
+    type="button"
+    (click)="onClick()">
+    Salvar
+  </button>
+  <div class="tw-flex tw-items-center tw-text-gray-500 tw-text-xs">
+    <mat-icon class="tw-text-base">info</mat-icon>
+    O botão só sera desbloqueado após o preenchimento de todos os campos
+  </div>
+</aside>

@@ -1,8 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { FilterComponent } from './components/filter/filter.component';
 
 interface User {
   name: string;
@@ -40,12 +42,14 @@ const ELEMENT_DATA: User[] = [
 export class UserListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource(ELEMENT_DATA);
   displayedColumns: string[] = ['name', 'position', 'hiringDate', 'status', 'salary', 'action'];
+  isOpen: boolean = false;
   selection = new SelectionModel<User>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   constructor(
+    private _dialog: MatDialog,
     private _paginatorService: MatPaginatorIntl
   ){}
 
@@ -64,6 +68,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
   applyFilter(event: KeyboardEvent) {
     const input: HTMLInputElement = event.target as HTMLInputElement;
     this.dataSource.filter = input.value.trim().toLowerCase();
+  }
+
+  filter(): void {
+    this._dialog.open(FilterComponent, { width: '600px' });
   }
 
   isAllSelected(): boolean {

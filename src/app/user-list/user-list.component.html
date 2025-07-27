@@ -1,81 +1,98 @@
-<header class="tw-bg-gray-50 tw-px-60 tw-pt-8">
-  <h1 class="tw-font-medium tw-text-5xl tw-text-gray-700">Lista de usuários contradados</h1>
-</header>
-<main class="tw-bg-gray-50 tw-flex tw-flex-col tw-h-full tw-pt-6 tw-px-60 tw-w-full">
-  <div class="tw-flex tw-items-end tw-py-4">
-    <mat-form-field class="tw-w-96">
-      <mat-label>Pesquisar</mat-label>
-      <input matInput placeholder="Busque pelo nome do usuário" (keyup)="applyFilter($event)">
-    </mat-form-field>
-    <button class="tw-bg-green-500 tw-flex tw-font-medium tw-gap-2 tw-items-center tw-ml-auto tw-px-4 tw-py-2 tw-rounded tw-text-gray-50 active:tw-scale-95">
-      Adicionar
-      <mat-icon class="tw-text-gray-50">person_add</mat-icon>
-    </button>
-  </div>
-  <section class="tw-bg-white tw-flex tw-flex-col tw-gap-4 tw-h-fit tw-mb-20 tw-p-8 tw-rounded-lg tw-shadow-xl tw-w-full">
-    <mat-table class="tw-border tw-border-solid tw-border-gray-300" matSort [dataSource]="dataSource">
-      <ng-container matColumnDef="name">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
-        <mat-cell *matCellDef="let user">
-          <span matTooltipPosition="above" [matTooltip]="user.name">{{user.name}}</span>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="position">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Cargo</mat-header-cell>
-        <mat-cell *matCellDef="let user">
-          <span matTooltipPosition="above" [matTooltip]="user.position">{{user.position}}</span>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="status">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef="let user">
-          <span class="status" [ngClass]="{'tw-bg-blue-100 tw-text-blue-500 tw-border-blue-500' : user.status, 'tw-bg-red-100 tw-text-red-500 tw-border-red-500' : !user.status}">
-            {{ user.status ? 'Ativo' : 'Desativado' }}
-          </span>
-        </mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="hiringDate">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Contratação</mat-header-cell>
-        <mat-cell *matCellDef="let user">{{ user.hiringDate | date: 'dd/MM/yyyy'}}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="salary">
-        <mat-header-cell mat-sort-header *matHeaderCellDef>Salário</mat-header-cell>
-        <mat-cell *matCellDef="let user">{{user.salary | currency: 'BRL' }}</mat-cell>
-      </ng-container>
-      <ng-container matColumnDef="action" stickyEnd>
-        <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
-        <mat-cell *matCellDef="let user">
-          <div class="tw-flex tw-gap-2 tw-py-2">
-            <button
-              class="tw-bg-gray-600 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
-              matTooltip="Visualizar"
-              matTooltipPosition="above">
-              <mat-icon>person_search</mat-icon>
-            </button>
-            <button
-              class="tw-bg-blue-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
-              matTooltip="Editar"
-              matTooltipPosition="above">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button
-              class="tw-bg-red-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
-              matTooltip="Deletar"
-              matTooltipPosition="above">
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-cell>
-      </ng-container>
+<mat-sidenav-container class="tw-absolute tw-bg-gray-50 tw-bottom-0 tw-left-0 tw-right-0 tw-top-0">
+  <mat-sidenav class="tw-w-[600px]" mode="over" [opened]="isOpen" position="end" (closedStart)="isOpen = false">
+    <user-form></user-form>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <header class="tw-bg-blue-500 tw-px-60 tw-py-8">
+      <h1 class="tw-font-medium tw-text-3xl tw-text-gray-50">Lista de usuários contradados</h1>
+    </header>
+    <main class="tw-bg-gray-50 tw-flex tw-flex-col tw-h-full tw-pt-6 tw-px-60 tw-w-full">
+      <div class="tw-flex tw-gap-2 tw-items-end tw-py-4">
+        <mat-form-field class="tw-w-96">
+          <mat-label>Pesquisar</mat-label>
+          <input matInput placeholder="Busque pelo nome do usuário" (keyup)="applyFilter($event)">
+        </mat-form-field>
+        <button
+          class="tw-bg-gray-500 tw-flex tw-font-medium tw-gap-3 tw-h-12 tw-items-center tw-ml-auto tw-px-4 tw-rounded tw-text-gray-50"
+          mat-button
+          (click)="filter()">
+          Filtrar
+          <mat-icon class="tw-m-0 tw-text-gray-50">filter_list</mat-icon>
+        </button>
+        <button
+          class="tw-bg-blue-500 tw-flex tw-font-medium tw-gap-3 tw-h-12 tw-items-center tw-rounded tw-px-4 tw-text-gray-50"
+          mat-button
+          (click)="isOpen = true">
+          Adicionar
+          <mat-icon class="tw-m-0 tw-text-gray-50">person_add</mat-icon>
+        </button>
+      </div>
+      <section class="tw-bg-white tw-flex tw-flex-col tw-gap-4 tw-h-fit tw-mb-20 tw-p-8 tw-rounded-lg tw-shadow-xl tw-w-full">
+        <mat-table class="tw-border tw-border-solid tw-border-gray-300" matSort [dataSource]="dataSource">
+          <ng-container matColumnDef="name">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Nome</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              <span matTooltipPosition="above" [matTooltip]="user.name">{{user.name}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="position">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Cargo</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              <span matTooltipPosition="above" [matTooltip]="user.position">{{user.position}}</span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="status">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Status</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              <span class="status" [ngClass]="{'tw-bg-blue-100 tw-text-blue-500 tw-border-blue-500' : user.status, 'tw-bg-red-100 tw-text-red-500 tw-border-red-500' : !user.status}">
+                {{ user.status ? 'Ativo' : 'Desativado' }}
+              </span>
+            </mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="hiringDate">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Contratação</mat-header-cell>
+            <mat-cell *matCellDef="let user">{{ user.hiringDate | date: 'dd/MM/yyyy'}}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="salary">
+            <mat-header-cell mat-sort-header *matHeaderCellDef>Salário</mat-header-cell>
+            <mat-cell *matCellDef="let user">{{user.salary | currency: 'BRL' }}</mat-cell>
+          </ng-container>
+          <ng-container matColumnDef="action" stickyEnd>
+            <mat-header-cell *matHeaderCellDef>Ações</mat-header-cell>
+            <mat-cell *matCellDef="let user">
+              <div class="tw-flex tw-gap-2 tw-py-2">
+                <button
+                  class="tw-bg-gray-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
+                  matTooltip="Visualizar"
+                  matTooltipPosition="above">
+                  <mat-icon>person_search</mat-icon>
+                </button>
+                <button
+                  class="tw-bg-gray-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
+                  matTooltip="Editar"
+                  matTooltipPosition="above">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                  class="tw-bg-red-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
+                  matTooltip="Deletar"
+                  matTooltipPosition="above">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-cell>
+          </ng-container>
 
-      <mat-header-row class="tw-font-medium tw-bg-gray-300 tw-text-gray-700" *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row class="odd:tw-bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></mat-row>
-    </mat-table>
-    <mat-paginator
-      class="tw-text-xs"
-      showFirstLastButtons
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 20]">
-    </mat-paginator>
-  </section>
-</main>
+          <mat-header-row class="tw-font-medium tw-bg-gray-300 tw-text-gray-700" *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row class="odd:tw-bg-gray-100" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator
+          class="tw-text-xs"
+          showFirstLastButtons
+          [pageSize]="10"
+          [pageSizeOptions]="[5, 10, 20]">
+        </mat-paginator>
+      </section>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
