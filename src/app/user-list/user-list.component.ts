@@ -8,6 +8,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { FilterComponent } from './components/filter/filter.component';
 import { UserListService } from './services/user-list.service';
 import { User } from './models/user.model';
+import { UserFilterService } from './services/user-list-filter.service';
 
 @Component({
   selector: 'user-list',
@@ -19,6 +20,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
   displayedColumns: string[] = ['nome', 'cargo', 'contratacao', 'status', 'salario', 'action'];
   isOpen: boolean = false;
+  users?: User[];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -27,7 +29,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
     private _dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private _paginatorService: MatPaginatorIntl,
-    private _userService: UserListService
+    private _userService: UserListService,
+    private _userFilterService: UserFilterService
   ){}
 
   ngOnInit(): void {
@@ -36,6 +39,9 @@ export class UserListComponent implements OnInit, AfterViewInit {
       return data.nome.trim().toLowerCase().includes(filter);
     };
     this._initPaginator();
+    this._userService.filter.subscribe(filter => {
+      if (Object.values(filter).flat().some(Boolean)) this.dataSource.data = this._userFilterService.filterUsers(this.users, filter);
+    });
   }
 
   ngAfterViewInit(): void {
@@ -49,7 +55,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   badgeHidden(): boolean {
-    return !Object.values(this._userService.filter.getValue()).flat().some(Boolean);
+    return this._userService.badgeHidden.getValue();
   }
 
   filter(): void {
@@ -94,6 +100,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   private _refreshTable(): void {
     this._userService.getUsers().subscribe((users: User[]) => {
       this.dataSource.data = users;
+      this.users = users;
     });
   }
 }

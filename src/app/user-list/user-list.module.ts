@@ -17,6 +17,7 @@ import { UserListComponent } from './user-list.component';
 import { FormModule } from './components/form/form.module';
 import { FilterModule } from './components/filter/filter.module';
 import { UserListService } from './services/user-list.service';
+import { UserFilterService } from './services/user-list-filter.service';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { UserListService } from './services/user-list.service';
     UserListComponent
   ],
   providers: [
-    UserListService
+    UserListService,
+    UserFilterService
   ]
 })
 export class UserListModule { }

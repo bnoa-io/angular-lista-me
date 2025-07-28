@@ -8,8 +8,9 @@ import { Filter } from '../models/filter.model';
   providedIn: 'root'
 })
 export class UserListService {
-  filter: BehaviorSubject<Partial<Filter>> = new BehaviorSubject<Partial<Filter>>({});
+  badgeHidden: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
   closeSidenav: Subject<void> = new Subject();
+  filter: BehaviorSubject<Partial<Filter>> = new BehaviorSubject<Partial<Filter>>({});
 
   constructor(
     private _htpp: HttpClient
