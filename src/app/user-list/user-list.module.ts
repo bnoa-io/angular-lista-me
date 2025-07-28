@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatBadgeModule } from '@angular/material/badge';
 
 import { UserListComponent } from './user-list.component';
 import { FormModule } from './components/form/form.module';
@@ -35,7 +36,8 @@ import { UserListService } from './services/user-list.service';
     MatSidenavModule,
     FormModule,
     FilterModule,
-    MatDialogModule
+    MatDialogModule,
+    MatBadgeModule
   ],
   exports: [
     UserListComponent

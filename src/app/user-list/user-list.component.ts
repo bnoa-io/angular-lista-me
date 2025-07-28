@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { FilterComponent } from './components/filter/filter.component';
 import { UserListService } from './services/user-list.service';
 import { User } from './models/user.model';
@@ -23,6 +25,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   constructor(
     private _dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     private _paginatorService: MatPaginatorIntl,
     private _userService: UserListService
   ){}
@@ -45,6 +48,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = input.value.trim().toLowerCase();
   }
 
+  badgeHidden(): boolean {
+    return !Object.values(this._userService.filter.getValue()).flat().some(Boolean);
+  }
+
   filter(): void {
     this._dialog.open(FilterComponent, { width: '600px' });
   }
@@ -53,10 +60,14 @@ export class UserListComponent implements OnInit, AfterViewInit {
     if (refresh) this._refreshTable();
     this.isOpen = false;
     this.currentUser = undefined;
+    this._userService.closeSidenav.next();
   }
 
   onDelete(id: number): void {
-    this._userService.deleteUser(id).subscribe(() => this._refreshTable());
+    this._userService.deleteUser(id).subscribe(() => {
+      this._snackBar.open('Operação realizada com sucesso!', 'OK', { duration: 5000 });
+      this._refreshTable();
+    });
   }
 
   onEdit(id: number): void {

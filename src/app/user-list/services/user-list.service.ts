@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../models/user.model';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { Filter } from '../models/filter.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserListService {
-  // state
+  filter: BehaviorSubject<Partial<Filter>> = new BehaviorSubject<Partial<Filter>>({});
+  closeSidenav: Subject<void> = new Subject();
 
   constructor(
     private _htpp: HttpClient
@@ -15,6 +17,10 @@ export class UserListService {
 
   createUser(user: User): Observable<User> {
     return this._htpp.post<User>('http://localhost:3333/usuarios', user);
+  }
+
+  getCargos(): Observable<string[]> {
+    return this._htpp.get<string[]>('http://localhost:3333/usuarios/cargos');
   }
 
   getUsers(): Observable<User[]> {

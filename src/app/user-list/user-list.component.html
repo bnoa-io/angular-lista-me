@@ -15,6 +15,11 @@
         <button
           class="tw-bg-gray-500 tw-flex tw-font-medium tw-gap-3 tw-h-12 tw-items-center tw-ml-auto tw-px-4 tw-rounded tw-text-gray-50"
           mat-button
+          matBadge="!"
+          matBadgeColor="warn"
+          [matBadgeHidden]="badgeHidden()"
+          matBadgePosition="before"
+          matBadgeSize="large"
           (click)="filter()">
           Filtrar
           <mat-icon class="tw-m-0 tw-text-gray-50">filter_list</mat-icon>

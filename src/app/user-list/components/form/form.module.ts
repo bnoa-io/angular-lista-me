@@ -9,6 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 import { FormComponent } from './form.component';
@@ -29,7 +30,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMaskDirective,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ],
   exports: [
     FormComponent

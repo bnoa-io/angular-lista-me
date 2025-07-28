@@ -4,14 +4,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes } from '@angular/router';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { HttpClientModule } from '@angular/common/http';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
 import { UserListModule } from './user-list/user-list.module';
 import { LoginModule } from './login/login.module';
 import { LoginComponent } from './login/login.component';
 import { UserListComponent } from './user-list/user-list.component';
-import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -31,7 +32,8 @@ const routes: Routes = [
     LoginModule,
     UserListModule,
     NgxMaskDirective,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule,
   ],
   providers: [
     {

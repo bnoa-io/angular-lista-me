@@ -7,15 +7,22 @@
   <form class="tw-flex tw-flex-col tw-gap-4 tw-mb-2" [formGroup]="form">
     <mat-form-field>
       <mat-label>Nome completo</mat-label>
-      <input formControlName="nome" matInput placeholder="Digite o nome do usuário">
+      <input formControlName="nome" matInput minlength="10" placeholder="Digite o nome do usuário">
       <mat-error>
-        Este campo é obrigatório
+        {{ getErrorMessage(nome) }}
       </mat-error>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Cargo</mat-label>
-      <input formControlName="cargo" matInput placeholder="Digite o cargo do usuário">
-      <mat-error>Este campo é obrigatório</mat-error>
+      <input formControlName="cargo" [matAutocomplete]="auto" minlength="5" matInput placeholder="Digite o cargo do usuário">
+      <mat-error>
+        {{ getErrorMessage(cargo) }}
+      </mat-error>
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
       <mat-label>Data de contratação</mat-label>
