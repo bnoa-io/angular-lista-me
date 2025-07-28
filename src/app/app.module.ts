@@ -9,14 +9,12 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 import { AppComponent } from './app.component';
-import { UserListModule } from './user-list/user-list.module';
 import { LoginModule } from './login/login.module';
 import { LoginComponent } from './login/login.component';
-import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'listagem', component: UserListComponent },
+  { path: 'listagem', loadChildren: () => import('./user-list/user-list.module').then(module => module.UserListModule) },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: '**', redirectTo: 'login' }
 ];
@@ -30,7 +28,6 @@ const routes: Routes = [
     BrowserModule,
     BrowserAnimationsModule,
     LoginModule,
-    UserListModule,
     NgxMaskDirective,
     HttpClientModule,
     MatSnackBarModule,

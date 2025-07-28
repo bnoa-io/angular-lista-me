@@ -18,6 +18,12 @@ import { FormModule } from './components/form/form.module';
 import { FilterModule } from './components/filter/filter.module';
 import { UserListService } from './services/user-list.service';
 import { UserFilterService } from './services/user-list-filter.service';
+import { RouterModule, Routes } from '@angular/router';
+
+const routes: Routes = [
+  { path: '', component: UserListComponent },
+];
+
 
 @NgModule({
   declarations: [
@@ -38,7 +44,8 @@ import { UserFilterService } from './services/user-list-filter.service';
     FormModule,
     FilterModule,
     MatDialogModule,
-    MatBadgeModule
+    MatBadgeModule,
+    RouterModule.forChild(routes)
   ],
   exports: [
     UserListComponent
