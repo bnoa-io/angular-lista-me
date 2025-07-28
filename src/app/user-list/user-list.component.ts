@@ -77,6 +77,12 @@ export class UserListComponent implements OnInit, AfterViewInit {
     })
   }
 
+  onView(id: number): void {
+    this._userService.getUser(id).subscribe((user: User) => {
+      console.log('Usuário: ', user);
+    });
+  }
+
   private _initPaginator(): void {
     this._paginatorService.itemsPerPageLabel = 'Usuários por página:';
     this._paginatorService.firstPageLabel = "Primeira página";

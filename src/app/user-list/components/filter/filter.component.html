@@ -40,10 +40,14 @@
           <mat-option value="menor">
             Salário MENOR que
           </mat-option>
+          <mat-option value="menor">
+            Salário IGUAL a
+          </mat-option>
           <mat-option value="maior">
             Salário MAIOR que
           </mat-option>
         </mat-select>
+        <mat-error>Este campo é obrigatório</mat-error>
       </mat-form-field>
       <mat-form-field class="tw-flex-1">
         <mat-label>Salário</mat-label>
@@ -71,6 +75,8 @@
     [disabled]="isButtonDisabled()"
     mat-button
     mat-dialog-close
+    matTooltip="Função em desenvolvimento"
+    matTooltipPosition="above"
     [ngClass]="{'tw-bg-gray-300 tw-text-gray-400' : isButtonDisabled()}"
     (click)="action(true)">
     Filtrar

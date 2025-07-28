@@ -68,8 +68,9 @@
               <div class="tw-flex tw-gap-2 tw-py-2">
                 <button
                   class="tw-bg-gray-500 tw-flex tw-items-center tw-p-2 tw-rounded-md tw-text-gray-50"
-                  matTooltip="Visualizar"
-                  matTooltipPosition="above">
+                  matTooltip="Visualizar, função em desenvolvimento!"
+                  matTooltipPosition="above"
+                  (click)="onView(user.id)">
                   <mat-icon>person_search</mat-icon>
                 </button>
                 <button

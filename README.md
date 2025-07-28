@@ -1,27 +1,81 @@
-# UserList
+# 📋 CRUD de Usuários - Angular + Node.js
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.12.
+Este projeto é uma aplicação completa de gerenciamento de usuários (CRUD), com backend em Node.js utilizando SQLite como banco de dados, e frontend em Angular. A aplicação permite cadastrar, visualizar, editar e excluir usuários, além de aplicar filtros dinâmicos com formulário reativo e visualização detalhada em sidebar.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 🚀 Tecnologias Utilizadas
 
-## Code scaffolding
+### 📦 Backend (Node.js)
+- Node.js
+- Express.js
+- SQLite (banco de dados local)
+- SQLite3 (driver)
+- Cors
+- Body-parser
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### 🌐 Frontend (Angular)
+- Angular 16+
+- Angular Material
+- Estrutura modularizada
+- Reactive Forms
+- RxJS com gerenciamento de estado via `BehaviorSubject`
+- Angular Router (lazy loading)
+- Consumo de API REST via `HttpClient`
 
-## Build
+---
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 📌 Funcionalidades
 
-## Running unit tests
+- [x] **Listagem de usuários** com exibição em tabela paginada
+- [x] **Filtro dinâmico** *(em desenvolvimento)*
+- [x] **Criação de novos usuários** com formulário reativo
+- [x] **Edição** dos dados do usuário
+- [x] **Exclusão** do usuário
+- [x] **Visualização em sidebar** com detalhes completos
+- [x] **Validações de formulário** com mensagens de erro amigáveis
+- [ ] Exportação para CSV/Excel *(em desenvolvimento)*
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+---
 
-## Running end-to-end tests
+## 📮 API
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+### `GET /usuarios`
+Retorna todos os usuários.  
 
-## Further help
+### `GET /usuarios/:id`
+Retorna um único usuário com base no ID
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### `GET /usuarios/cargos`
+Retorna as profissões de cada usuário
+
+### `POST /usuarios`
+Cria um novo usuário  
+**Body:**
+```json
+{
+  "nome": "João Silva",
+  "cargo": "Desenvolvedor",
+  "contratacao": "2024-10-01",
+  "status": true,
+  "salario": 4500.00
+}
+```
+
+### `PUT /usuarios/:id`
+Atualiza um usuário existente  
+**Body:** (mesmo do POST)
+
+### `DELETE /usuarios/:id`
+Remove um usuário com base no ID
+
+---
+
+## 📬 Contato
+
+**Brayan Apeles**  
+📧 brayanapeles.dev@gmail.com  
+🔗 [LinkedIn](https://www.linkedin.com/in/brayan-apeles-2814872a2/)  
+🐙 [GitHub](https://github.com/bnoa-io)
+
+---

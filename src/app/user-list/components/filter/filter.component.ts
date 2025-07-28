@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
 import { UserListService } from '../../services/user-list.service';
 import { Observable } from 'rxjs';
 
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 export class FilterComponent implements OnInit {
   form: FormGroup = this._fb.group({
     cargos: [null],
-    comparacao: ['menor'],
+    comparacao: ['menor', Validators.required],
     contratacao: [''],
     status: [null],
     salario: ['']
