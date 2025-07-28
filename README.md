@@ -29,7 +29,7 @@ Este projeto é uma aplicação completa de gerenciamento de usuários (CRUD), c
 ## 📌 Funcionalidades
 
 - [x] **Listagem de usuários** com exibição em tabela paginada
-- [x] **Filtro dinâmico** *(em desenvolvimento)*
+- [x] **Filtro dinâmico**
 - [x] **Criação de novos usuários** com formulário reativo
 - [x] **Edição** dos dados do usuário
 - [x] **Exclusão** do usuário
