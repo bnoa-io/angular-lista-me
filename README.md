@@ -17,6 +17,7 @@ Este projeto é uma aplicação completa de gerenciamento de usuários (CRUD), c
 ### 🌐 Frontend (Angular)
 - Angular 16+
 - Angular Material
+- Tailwindcss
 - Estrutura modularizada
 - Reactive Forms
 - RxJS com gerenciamento de estado via `BehaviorSubject`
