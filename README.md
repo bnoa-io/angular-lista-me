@@ -70,6 +70,8 @@ Atualiza um usuário existente
 ### `DELETE /usuarios/:id`
 Remove um usuário com base no ID
 
+🐙 [Projeto no GitHub](https://github.com/bnoa-io/nodejs-lista-me-api)
+
 ---
 
 ## 📬 Contato
