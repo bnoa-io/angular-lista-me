@@ -8,9 +8,12 @@ import { Filter } from '../models/filter.model';
   providedIn: 'root'
 })
 export class UserListService {
+  // state
   badgeHidden: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-  closeSidenav: Subject<void> = new Subject();
   filter: BehaviorSubject<Partial<Filter>> = new BehaviorSubject<Partial<Filter>>({});
+  userView: BehaviorSubject<User> = new BehaviorSubject<User>(null);
+
+  closeSidenav: Subject<void> = new Subject();
 
   constructor(
     private _htpp: HttpClient

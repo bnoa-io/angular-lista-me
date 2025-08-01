@@ -1,0 +1,108 @@
+<header class="tw-bg-blue-500 tw-flex tw-flex-col tw-gap-2 tw-px-60 tw-py-8 tw-text-gray-50">
+  <h1 class="tw-font-medium tw-text-3xl">Perfil do usuário: {{ user.nome }}</h1>
+  <div class="tw-flex tw-gap-2">
+    <mat-icon>arrow_back</mat-icon>
+    <span class="tw-cursor-pointer hover:tw-underline" (click)="return()">Voltar para listagem</span>
+  </div>
+</header>
+<main class="tw-bg-gray-50 tw-flex tw-h-full tw-items-start tw-gap-16 tw-py-8" style="padding-inline: 20%;">
+  <section class="tw-flex tw-flex-col tw-gap-4 tw-w-1/4">
+    <figure class="tw-flex tw-max-w-80 tw-overflow-hidden tw-rounded-full">
+      <img src="assets/undraw-profile-default.svg" alt="Imagem padrão de perfil">
+    </figure>
+    <button
+      class="tw-font-medium tw-h-14 tw-bg-gray-500 tw-text-white tw-text-lg"
+      mat-flat-button>
+      Alterar foto de perfil
+    </button>
+  </section>
+  <section class="tw-w-3/4">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tw-mr-2">contact_page</mat-icon>
+          Dados cadastrados
+        </ng-template>
+        <div class="tw-grid tw-gap-4 tw-py-4">
+          <div class="tw-border-l-8 tw-border-blue-500 tw-bg-gray-100 tw-p-2 tw-rounded-lg hover:tw-bg-gray-200">
+            <strong class="tw-font-medium tw-text-blue-500">Nome</strong>
+            <p>{{ user.nome }}</p>
+          </div>
+          <div class="tw-border-l-8 tw-border-blue-500 tw-bg-gray-100 tw-p-2 tw-rounded-lg hover:tw-bg-gray-200">
+            <strong class="tw-font-medium tw-text-blue-500">Cargo</strong>
+            <p>{{ user.cargo }}</p>
+          </div>
+          <div class="tw-border-l-8 tw-border-blue-500 tw-bg-gray-100 tw-p-2 tw-rounded-lg hover:tw-bg-gray-200">
+            <strong class="tw-font-medium tw-text-blue-500">Data de contratação</strong>
+            <p>{{ user.contratacao | date: 'dd/MM/yyyy' }}</p>
+          </div>
+          <div class="tw-border-l-8 tw-border-blue-500 tw-bg-gray-100 tw-p-2 tw-rounded-lg hover:tw-bg-gray-200">
+            <strong class="tw-font-medium tw-text-blue-500">Status</strong>
+            <p>{{ user.status ? 'Ativo' : 'Desligado' }}</p>
+          </div>
+          <div class="tw-border-l-8 tw-border-blue-500 tw-bg-gray-100 tw-p-2 tw-rounded-lg hover:tw-bg-gray-200">
+            <strong class="tw-font-medium tw-text-blue-500">Salário</strong>
+            <p>{{ user.salario | currency: 'BRL' }}</p>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <mat-icon class="tw-mr-2">manage_accounts</mat-icon>
+          Editar cadastro
+        </ng-template>
+        <form class="tw-flex tw-flex-col tw-gap-4 tw-mb-2 tw-py-4" [formGroup]="form">
+          <mat-form-field>
+            <mat-label>Nome completo</mat-label>
+            <input formControlName="nome" matInput minlength="10" placeholder="Digite o nome do usuário">
+            <mat-error>
+              {{ getErrorMessage(nome) }}
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Cargo</mat-label>
+            <input formControlName="cargo" [matAutocomplete]="auto" minlength="5" matInput placeholder="Digite o cargo do usuário">
+            <mat-error>
+              {{ getErrorMessage(cargo) }}
+            </mat-error>
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{ option }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Data de contratação</mat-label>
+            <input formControlName="contratacao" matInput [matDatepicker]="picker" [max]="today">
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>Este campo é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Status</mat-label>
+            <mat-select formControlName="status" placeholder="Digite o salário do usuário">
+              <mat-option [value]="true">
+                Ativo
+              </mat-option>
+              <mat-option [value]="false">
+                Desativado
+              </mat-option>
+            </mat-select>
+            <mat-error>Este campo é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Salário</mat-label>
+            <input formControlName="salario" matInput placeholder="Digite o salário do usuário" mask="separator.2" thousandSeparator="." decimalMarker="," prefix="R$ ">
+            <mat-error>Este campo é obrigatório</mat-error>
+          </mat-form-field>
+          <button
+            class="tw-font-medium tw-h-14 tw-bg-blue-500 tw-text-white tw-text-lg"
+            mat-flat-button
+            (click)="onClick()">
+            Salvar alterações
+          </button>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </section>
+</main>

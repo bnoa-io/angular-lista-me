@@ -12,7 +12,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class FilterComponent implements OnInit {
   form: FormGroup = this._fb.group({
     cargos: [[]],
-    comparacao: ['menor', Validators.required],
+    comparacao: ['>', Validators.required],
     contratacao: [''],
     periodo: ['<', Validators.required],
     status: ['ambos', Validators.required],
@@ -33,7 +33,7 @@ export class FilterComponent implements OnInit {
 
   action(filter: boolean): void {
     this._userService.badgeHidden.next(!filter);
-    if (!filter) this.form.reset({ cargos: [], comparacao: '<', contratacao: '', periodo: '<', status: 'ambos', salario: '' });
+    if (!filter) this.form.reset({ cargos: [], comparacao: '>', contratacao: '', periodo: '<', status: 'ambos', salario: '' });
     this._userService.filter.next(this.form.value);
     this._dialog.close();
   }

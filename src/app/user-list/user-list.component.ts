@@ -9,6 +9,7 @@ import { FilterComponent } from './components/filter/filter.component';
 import { UserListService } from './services/user-list.service';
 import { User } from './models/user.model';
 import { UserFilterService } from './services/user-list-filter.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'user-list',
@@ -20,7 +21,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>([]);
   displayedColumns: string[] = ['nome', 'cargo', 'contratacao', 'status', 'salario', 'action'];
   isOpen: boolean = false;
-  users?: User[];
+  users?: User[] = [];
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -29,6 +30,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
     private _dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private _paginatorService: MatPaginatorIntl,
+    private _router: Router,
     private _userService: UserListService,
     private _userFilterService: UserFilterService
   ){}
@@ -38,10 +40,10 @@ export class UserListComponent implements OnInit, AfterViewInit {
     this.dataSource.filterPredicate = function(data: User, filter: string): boolean {
       return data.nome.trim().toLowerCase().includes(filter);
     };
-    this._initPaginator();
     this._userService.filter.subscribe(filter => {
-      if (Object.values(filter).flat().some(Boolean)) this.dataSource.data = this._userFilterService.filterUsers(this.users, filter);
+      if (!!this.users.length && Object.values(filter).flat().some(Boolean)) this.dataSource.data = this._userFilterService.filterUsers(this.users, filter);
     });
+    this._initPaginator();
   }
 
   ngAfterViewInit(): void {
@@ -83,10 +85,9 @@ export class UserListComponent implements OnInit, AfterViewInit {
     })
   }
 
-  onView(id: number): void {
-    this._userService.getUser(id).subscribe((user: User) => {
-      console.log('Usuário: ', user);
-    });
+  onView(user: User): void {
+    this._userService.userView.next(user);
+    this._router.navigateByUrl('listagem/perfil');
   }
 
   private _initPaginator(): void {
@@ -99,8 +100,12 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   private _refreshTable(): void {
     this._userService.getUsers().subscribe((users: User[]) => {
-      this.dataSource.data = users;
       this.users = users;
+      if (!this._userService.badgeHidden.getValue()) {
+        this.dataSource.data = this._userFilterService.filterUsers(this.users, this._userService.filter.getValue());
+      } else {
+        this.dataSource.data = users;
+      }
     });
   }
 }

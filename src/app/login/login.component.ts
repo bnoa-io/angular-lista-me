@@ -21,4 +21,8 @@ export class LoginComponent {
   login(): void {
     this._router.navigate(['/listagem']);
   }
+
+  onKeyUp(key: string): void {
+    if (key === 'Enter' && this.form.valid)  this.login();
+  }
 }

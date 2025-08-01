@@ -19,15 +19,18 @@ import { FilterModule } from './components/filter/filter.module';
 import { UserListService } from './services/user-list.service';
 import { UserFilterService } from './services/user-list-filter.service';
 import { RouterModule, Routes } from '@angular/router';
+import { UserViewModule } from './components/user-view/user-view.module';
+import { UserViewComponent } from './components/user-view/user-view.component';
 
 const routes: Routes = [
-  { path: '', component: UserListComponent },
+  { path: 'perfil', component: UserViewComponent },
+  { path: '', component: UserListComponent }
 ];
 
 
 @NgModule({
   declarations: [
-    UserListComponent
+    UserListComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +48,7 @@ const routes: Routes = [
     FilterModule,
     MatDialogModule,
     MatBadgeModule,
+    UserViewModule,
     RouterModule.forChild(routes)
   ],
   exports: [

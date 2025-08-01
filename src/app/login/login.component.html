@@ -12,7 +12,7 @@
       <mat-form-field class="tw-w-full">
         <mat-label>Digite seu usuário</mat-label>
         <mat-icon class="tw-text-gray-700" matPrefix>perm_identity</mat-icon>
-        <input formControlName="user" matInput type="text">
+        <input autofocus formControlName="user" matInput type="text">
         <mat-error class="tw-flex tw-gap-2">
           Este campo é obrigatório
         </mat-error>
@@ -20,7 +20,7 @@
       <mat-form-field class="tw-w-full">
         <mat-label>Digite seu senha</mat-label>
         <mat-icon class="tw-text-gray-700" matPrefix>lock</mat-icon>
-        <input formControlName="password" matInput placeholder="Digite seu usuário" [type]="visibility ?  'text' : 'password'">
+        <input formControlName="password" matInput placeholder="Digite seu usuário" [type]="visibility ?  'text' : 'password'" (keyup)="onKeyUp($event.key)">
         <button class="tw-text-blue-500" matSuffix mat-icon-button (click)="visibility = !visibility">
           <mat-icon>{{ visibility ?  'visibility_off' : 'visibility' }}</mat-icon>
         </button>
