@@ -43,4 +43,13 @@ export class UserListService {
     return this._htpp.delete<any>(`http://localhost:3333/usuarios/${id}`);
   }
 
+  uploadFoto(userId: number, file: File): Observable<{ foto_url: string }> {
+    const formData = new FormData();
+    formData.append('foto', file);
+    return this._htpp.post<{ foto_url: string }>(
+      `http://localhost:3333/usuarios/${userId}/foto`,
+      formData
+    );
+  }
+
 }

@@ -4,5 +4,6 @@ export interface User {
   id: number,
   nome: string,
   salario: number,
-  status: boolean
+  status: boolean,
+  foto_url?: string
 }

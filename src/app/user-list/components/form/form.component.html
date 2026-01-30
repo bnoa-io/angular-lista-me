@@ -34,10 +34,10 @@
     <mat-form-field>
       <mat-label>Status</mat-label>
       <mat-select formControlName="status" placeholder="Digite o salário do usuário">
-        <mat-option value="true">
+        <mat-option [value]="true">
           Ativo
         </mat-option>
-        <mat-option value="false">
+        <mat-option [value]="false">
           Desativado
         </mat-option>
       </mat-select>

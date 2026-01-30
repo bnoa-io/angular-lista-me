@@ -26,6 +26,9 @@ export class UserViewComponent implements OnInit {
   positions: string[];
   today: Date = new Date();
 
+  previewUrl: string | null = null;
+  isUploading = false;
+
   constructor(
     private _fb: FormBuilder,
     private _router: Router,
@@ -50,7 +53,8 @@ export class UserViewComponent implements OnInit {
   }
 
   onClick(): void {
-    this._userService.updateUser(this.form.value).subscribe(() => {
+    this._userService.updateUser(this.form.value).subscribe((updatedUser) => {
+      this.user = { ...this.user, ...updatedUser };
       this._snackBar.open('Operação realizada com sucesso!', 'OK', { duration: 5000 });
     });
   }
@@ -70,5 +74,38 @@ export class UserViewComponent implements OnInit {
 
   get nome(): AbstractControl {
     return this.form.get('nome');
+  }
+
+  get fotoUrl(): string {
+    if (this.previewUrl) return this.previewUrl;
+    if (this.user.foto_url) return `http://localhost:3333${this.user.foto_url}`;
+    return 'assets/undraw-profile-default.svg';
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.previewUrl = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+
+      this.isUploading = true;
+      this._userService.uploadFoto(this.user.id, file).subscribe({
+        next: (response) => {
+          this.user.foto_url = response.foto_url;
+          this._snackBar.open('Foto atualizada com sucesso!', 'OK', { duration: 3000 });
+          this.isUploading = false;
+        },
+        error: () => {
+          this._snackBar.open('Erro ao enviar foto', 'OK', { duration: 3000 });
+          this.isUploading = false;
+          this.previewUrl = null;
+        }
+      });
+    }
   }
 }

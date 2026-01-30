@@ -7,15 +7,23 @@
 </header>
 <main class="tw-bg-gray-50 tw-flex tw-h-full tw-items-start tw-gap-16 tw-py-8" style="padding-inline: 20%;">
   <section class="tw-flex tw-flex-col tw-gap-4 tw-w-1/4">
-    <figure class="tw-flex tw-max-w-80 tw-overflow-hidden tw-rounded-full">
-      <img src="assets/undraw-profile-default.svg" alt="Imagem padrão de perfil">
+    <figure class="tw-flex tw-max-w-80 tw-overflow-hidden tw-rounded-full tw-aspect-square">
+      <img [src]="fotoUrl" alt="Foto de perfil" class="tw-object-cover tw-w-full tw-h-full">
     </figure>
+    <input
+      type="file"
+      #fileInput
+      accept="image/jpeg,image/png,image/webp"
+      (change)="onFileSelected($event)"
+      class="tw-hidden">
     <button
-      class="tw-font-medium tw-h-14 tw-bg-gray-500 tw-text-white tw-text-lg"
+      class="tw-font-medium tw-h-14 tw-text-white tw-text-lg"
+      [class.tw-bg-blue-500]="!isUploading"
+      [class.tw-bg-gray-500]="isUploading"
       mat-flat-button
-      matTooltip="Função em desenvolvimento!"
-      matTooltipPosition="above">
-      Alterar foto de perfil
+      [disabled]="isUploading"
+      (click)="fileInput.click()">
+      {{ isUploading ? 'Enviando...' : 'Alterar foto de perfil' }}
     </button>
   </section>
   <section class="tw-w-3/4">
